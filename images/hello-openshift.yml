@@ -1,0 +1,25 @@
+container_yaml:
+  go:
+    modules:
+    - module: github.com/openshift/origin
+content:
+  source:
+    alias: ose
+    dockerfile: Dockerfile.rhel
+    path: examples/hello-openshift
+enabled_repos:
+- rhel-8-baseos-rpms
+from:
+  builder:
+  - stream: golang
+  stream: rhel
+labels:
+  License: GPLv2+
+  io.k8s.description: OpenShift is a platform for developing, building, and deploying
+    containerized applications.
+  io.k8s.display-name: OpenShift Hello World
+  io.openshift.tags: openshift,hello
+  vendor: Red Hat
+name: openshift/hello-openshift
+owners:
+- aos-master@redhat.com

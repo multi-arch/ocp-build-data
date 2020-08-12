@@ -1,0 +1,73 @@
+arches:
+- x86_64
+- ppc64le
+- s390x
+- aarch64
+
+vars:
+  MAJOR: 4
+  MINOR: 6
+
+branch: rhaos-{MAJOR}.{MINOR}-rhel-8
+name: hello-openshift
+urls:
+  brewhub: https://brewhub.engineering.redhat.com/brewhub
+  brew_image_host: registry-proxy.engineering.redhat.com
+  brew_image_namespace: rh-osbs
+  cgit: http://pkgs.devel.redhat.com/cgit
+dist_git_ignore:
+  - gating.yaml
+
+sources:
+  ose:
+    url: git@github.com:openshift/ose.git
+    branch:
+      target: enterprise-{MAJOR}.{MINOR}
+
+public_upstreams:
+- private: "https://github.com/openshift-priv"
+  public: "https://github.com/openshift"
+- private: "https://github.com/openshift/ose"
+  public: "https://github.com/openshift/origin"
+  public_branch: release-{MAJOR}.{MINOR}
+
+repos:
+  rhel-8-baseos-rpms:
+    conf:
+      baseurl:
+        aarch64: http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel8/8/aarch64/baseos/os/
+        ppc64le: http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel8/8/ppc64le/baseos/os/
+        s390x: http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel8/8/s390x/baseos/os/
+        x86_64: http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel8/8/x86_64/baseos/os/
+    content_set:
+      default: rhel-8-for-x86_64-baseos-rpms
+      aarch64: rhel-8-for-aarch64-baseos-rpms
+      ppc64le: rhel-8-for-ppc64le-baseos-rpms
+      s390x: rhel-8-for-s390x-baseos-rpms
+    reposync:
+      enabled: false
+
+default_image_build_method: imagebuilder
+image_build_log_scanner:
+  matches:
+    # yum failed to install a package (but may not give an error result)
+  - "No package .* available"
+    # dnf failed to find a package to install:
+  - "Error: Unable to find a match"
+    # on multiarch builds, installed different NVR of pkg for different arches:
+  - "Failed component comparison for components:.*"
+    # docker does not understand multi-stage builds
+  - "is not a valid repository/tag: invalid reference format"
+    # indicative of https://github.com/openshift/imagebuilder/issues/87 or file(s) missing
+  - "plugins.imagebuilder.*lstat.*no such file or directory"
+    # koji sucks at auto-incrementing releases
+  - "bump_release: BuildError.'Unable to increment release value:"
+    # need to add the image component to whitelist building into candidate tag
+  - "not in list for tag rhaos-.*-candidate"
+  files:
+  - x86_64.log
+  - s390x.log
+  - ppc64le.log
+  - aarch64.log
+  - task_failed.log
+  - orchestrator.log
