@@ -1,5 +1,3 @@
 ---
-rhel:
-  image: openshift/ose-base:ubi8
 golang:
   image: openshift/golang-builder:rhel_8_golang_1.14

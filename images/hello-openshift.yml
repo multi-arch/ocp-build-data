@@ -7,12 +7,10 @@ content:
     alias: ose
     dockerfile: Dockerfile.rhel
     path: examples/hello-openshift
-enabled_repos:
-- rhel-8-baseos-rpms
 from:
   builder:
   - stream: golang
-  stream: rhel
+  image: scratch
 labels:
   License: GPLv2+
   io.k8s.description: OpenShift is a platform for developing, building, and deploying

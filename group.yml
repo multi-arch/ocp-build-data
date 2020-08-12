@@ -31,22 +31,6 @@ public_upstreams:
   public: "https://github.com/openshift/origin"
   public_branch: release-{MAJOR}.{MINOR}
 
-repos:
-  rhel-8-baseos-rpms:
-    conf:
-      baseurl:
-        aarch64: http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel8/8/aarch64/baseos/os/
-        ppc64le: http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel8/8/ppc64le/baseos/os/
-        s390x: http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel8/8/s390x/baseos/os/
-        x86_64: http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel8/8/x86_64/baseos/os/
-    content_set:
-      default: rhel-8-for-x86_64-baseos-rpms
-      aarch64: rhel-8-for-aarch64-baseos-rpms
-      ppc64le: rhel-8-for-ppc64le-baseos-rpms
-      s390x: rhel-8-for-s390x-baseos-rpms
-    reposync:
-      enabled: false
-
 default_image_build_method: imagebuilder
 image_build_log_scanner:
   matches:
