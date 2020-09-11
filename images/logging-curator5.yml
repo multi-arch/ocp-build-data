@@ -1,3 +1,5 @@
+# moving to CPaaS
+mode: disabled
 content:
   source:
     dockerfile: Dockerfile
